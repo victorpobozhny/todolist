@@ -1,31 +1,33 @@
 import React, {FC} from 'react';
 import './TodoList.css'
 import Button from "./Button";
-import Task, {TaskType} from "./Task";
+import {FilterType} from "./App";
+
 
 type PropsType = {
     title: string
     tasks: Array<TaskType>
+    deleteTask: (taskId: number) => void
+    changeFilter: (f: FilterType) => void
+}
+export type TaskType = {
+    id: number,
+    title: string,
+    isDone: boolean
 }
 
-const TodoList: FC<PropsType> = ({title, tasks}) => {
-    //1.
-    // const title = props.title
-    // const tasks: Array<TaskType> = props.tasks
-    //2.
-    //const {title: myTitle, tasks: myTasks} = props
-    //3.
-    //const {title, tasks} = props --ДЕСТРУКРУТИРУЮЩЕЕ ПРИСВАИВАНИЕ-- перенесли вместо props на входе в компоненту
-
+const TodoList: FC<PropsType> = ({title, tasks, deleteTask, changeFilter}) => {
     const listItems: Array<JSX.Element> = []
     tasks.map(el => {
-        listItems.push(<Task id={el.id} title={el.title} isDone={el.isDone}/>)
+        listItems.push(
+            <li><input type='checkbox' checked={el.isDone}/>
+                <span>{el.title}</span>
+                <Button name={'✖️'} passedFunction={() => {
+                    deleteTask(el.id)
+                }}/>
+            </li>
+        )
     })
-
-
-    // for (let i = 0; i<tasks.length; i++) {
-    //     listItems.push(<Task id = {tasks[i].id} title={tasks[i].title} isDone={tasks[i].isDone}/>)
-    // }
 
     return (
         <div className={"todoList"}>
@@ -38,9 +40,15 @@ const TodoList: FC<PropsType> = ({title, tasks}) => {
                 {listItems}
             </ul>
             <div>
-                <Button name={'All'}/>
-                <Button name={'Completed'}/>
-                <Button name={'Active'}/>
+                <Button name={'All'} passedFunction={() => {
+                    changeFilter('all')
+                }}/>
+                <Button name={'Completed'} passedFunction={() => {
+                    changeFilter('completed')
+                }}/>
+                <Button name={'Active'} passedFunction={() => {
+                    changeFilter('active')
+                }}/>
             </div>
         </div>
     );
