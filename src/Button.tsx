@@ -1,14 +1,15 @@
-import React, {FC} from "react";
+import React, { FC } from 'react';
 
 type ButtonPropsType = {
     name: string
-    passedFunction?: () => void
+    onClickHandler: () => void
+    disabled?: boolean
 }
 
 const Button: FC<ButtonPropsType> = (props) => {
     return (
-        <button onClick={props.passedFunction}>{props.name}</button>
+        <button onClick={props.onClickHandler} disabled={props.disabled}>{props.name}</button>
     )
 }
 
-export default Button;
+export default Button
