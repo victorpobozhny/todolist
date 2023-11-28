@@ -1,12 +1,14 @@
-import React, {ChangeEvent, ChangeEventHandler,KeyboardEvent, FC, useRef, useState} from 'react';
+import React, {ChangeEvent, ChangeEventHandler, KeyboardEvent, FC, useState} from 'react';
 import Button from './Button';
 import TasksList from './TasksList';
+import icon from './img/icon.png'
 
 type TodoListPropsType = {
     title: string
     tasks: Array<TaskType>
     removeTask: (taskId: string) => void
     addTask: (title: string) => void
+    changeTaskStatus: (taskId: string, isDone: boolean) => void
 }
 
 export type TaskType = {
@@ -15,15 +17,23 @@ export type TaskType = {
     isDone: boolean
 }
 
-const TodoList: FC<TodoListPropsType> = ({title, tasks, removeTask, addTask}) => {
+const TodoList: FC<TodoListPropsType> = ({title, tasks, removeTask, addTask, changeTaskStatus}) => {
 
     const [newTaskTitle, setNewTaskTitle] = useState('')
+    const [inputError, setInputError] = useState(false)
+    const [collapsed, setCollapsed] = useState(false)
+
+    const onCollapseHandler = () => {
+        setCollapsed(!collapsed)
+    }
 
     const onClickAddTask = () => {
-        addTask(newTaskTitle)
+        const trimmedTitle = newTaskTitle.trim()
+        trimmedTitle ? addTask(trimmedTitle) : setInputError(true)
         setNewTaskTitle('')
     }
-    const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const onChangeSetTitle = (event: ChangeEvent<HTMLInputElement>) => {
+        inputError && setInputError(false)
         setNewTaskTitle(event.currentTarget.value)
     }
     const onKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -33,20 +43,33 @@ const TodoList: FC<TodoListPropsType> = ({title, tasks, removeTask, addTask}) =>
 
     return (
         <div className="todoList">
-            <h3>{title}</h3>
-            <div>
-                <input value={newTaskTitle}
-                       onChange={onChangeHandler}
-                       onKeyDown={onKeyDownHandler}
-                />
-                <Button
-                    name="+"
-                    onClickHandler={onClickAddTask}
-                    disabled={!newTaskTitle || maxTitleLengthError}
-                />
-                {maxTitleLengthError && <div style={{color: "red"}}>Your Task Title is too Long</div>}
-            </div>
-            <TasksList tasks={tasks} removeTask={removeTask}/>
+            <h3>
+
+                <img className={'collapsedHandler'} src={icon} onClick={onCollapseHandler} alt={'collapsed or not'}/>
+                {title}
+
+            </h3>
+
+            {collapsed && <div>
+                <div>
+                    <input className={inputError ? 'inputError' : ''}
+                           value={newTaskTitle}
+                           onChange={onChangeSetTitle}
+                           onKeyDown={onKeyDownHandler}
+                    />
+
+                    <Button
+                        name="+"
+                        onClickHandler={onClickAddTask}
+                        disabled={!newTaskTitle || maxTitleLengthError}
+                    />
+                    {inputError && <div style={{color: "red"}}>YO!</div>}
+                    {maxTitleLengthError && <div style={{color: "red"}}>Your Task Title is too Long</div>}
+                </div>
+                <TasksList tasks={tasks} removeTask={removeTask} changeTaskStatus={changeTaskStatus}/>
+            </div>}
+
+
         </div>
     )
 }
