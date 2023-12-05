@@ -1,58 +1,26 @@
+
 .App {
   padding: 30px;
   display: flex;
-  font-family: "Comic Sans MS", sans-serif;
 }
 
 .App > div {
   margin-right: 50px;
 }
-.collapsedHandler {
-  padding-right: 10px;
-  margin-top: 5px;
-}
-.todoList {
-  border: 3px solid rgb(184,209,235);
-  padding: 15px;
-  border-radius: 5px;
-  background-color: rgb(204,229,255);
-  box-shadow: 10px 5px 5px rgb(184,209,235)
-}
-.tasksList {
-  border: 1px solid black;
-  border-radius: 5px;
-  padding: 5px;
-  background-color: rgb(150,200,200);
-  margin-top: 15px;
-}
-.task {
-  margin-bottom: 5px;
-}
-.list {
-  list-style: none;
-  padding: 0;
+
+.error {
+  border: red 1px solid;
 }
 
-.task-done {
+.error-message {
+  color: red;
+}
+
+.active-filter {
+  background-color: aquamarine;
+}
+
+.is-done {
   opacity: 0.5;
-  background-color: rgba(150, 200, 200, 0.4);
 }
 
-.btn {
-  background-color: rgb(204, 255, 253);
-  border-radius: 15%;
-
-}
-.btn-active{
-  background-color: rgb(17, 53, 72);
-  color: whitesmoke;
-}
-.button-container {
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 0 ;
-}
-.inputError {
-  border: 2px solid red;
-  outline: none;
-}
