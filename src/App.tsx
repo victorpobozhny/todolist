@@ -93,16 +93,10 @@ function App() {
     return (
         <div className="App">
             {todolists.map(el => {
-                let tasksForTodolist = tasks[el.id]
-                if (el.filter === "active") {
-                    tasksForTodolist = tasksForTodolist.filter(t => !t.isDone);
-                }
-                if (el.filter === "completed") {
-                    tasksForTodolist = tasksForTodolist.filter(t => t.isDone);
-                }
+
                 return <Todolist title={el.title}
                                  key={el.id}
-                                 tasks={tasksForTodolist}
+                                 tasks={tasks[el.id]}
                                  removeTask={removeTask}
                                  changeFilter={changeFilter}
                                  addTask={addTask}
