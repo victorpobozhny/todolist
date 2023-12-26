@@ -2,9 +2,11 @@ import React, {ChangeEvent} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
+import IconButton from '@mui/material/IconButton/IconButton';
+import {Delete} from "@mui/icons-material";
+import {Button, Checkbox} from "@mui/material";
+import {MyCheckbox} from "./MyChexbox";
+
 
 export type TaskType = {
     id: string
@@ -42,59 +44,56 @@ export function Todolist(props: PropsType) {
     const onActiveClickHandler = () => props.changeFilter("active", props.id);
     const onCompletedClickHandler = () => props.changeFilter("completed", props.id);
 
+    const onChangeHandler = (taskId: string, checked: boolean) => {
+        props.changeTaskStatus(taskId, checked, props.id);
+    }
+
     return <div>
         <h3><EditableSpan value={props.title} onChange={changeTodolistTitle}/>
-            <Button>
-                <DeleteForeverIcon onClick={removeTodolist}/>
-            </Button>
-
+            <IconButton onClick={removeTodolist}>
+                <Delete/>
+            </IconButton>
         </h3>
         <AddItemForm addItem={addTask}/>
-        <ul>
+        <div>
             {
                 props.tasks.map(t => {
                     const onClickHandler = () => props.removeTask(t.id, props.id)
-                    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                        let newIsDoneValue = e.currentTarget.checked;
-                        props.changeTaskStatus(t.id, newIsDoneValue, props.id);
-                    }
+                    // уметь переносить наружу map нашу функцию
+                    // const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                    //     let newIsDoneValue = e.currentTarget.checked;
+                    //     props.changeTaskStatus(t.id, newIsDoneValue, props.id);
+                    // }
                     const onTitleChangeHandler = (newValue: string) => {
                         props.changeTaskTitle(t.id, newValue, props.id);
                     }
 
 
-                    return <li key={t.id} className={t.isDone ? "is-done" : ""}>
+                    return <div key={t.id} className={t.isDone ? "is-done" : ""}>
 
-                        <Checkbox onChange={onChangeHandler} checked={t.isDone}/>
+                        <MyCheckbox checked={t.isDone} callback={(checked) => onChangeHandler(t.id, checked)} color={"primary"}/>
                         <EditableSpan value={t.title} onChange={onTitleChangeHandler}/>
-                        <Button>
-                            <DeleteForeverIcon onClick={onClickHandler}/>
-                        </Button>
-
-                    </li>
+                        <IconButton onClick={onClickHandler}>
+                            <Delete/>
+                        </IconButton>
+                    </div>
                 })
             }
-        </ul>
+        </div>
         <div>
-
-
-            <Button variant={'outlined'} color={props.filter === 'all' ? 'error' : 'primary'}
+            <Button variant={props.filter === 'all' ? 'outlined' : 'text'}
                     onClick={onAllClickHandler}
-            >
-                All
+                    color={'inherit'}
+            >All
             </Button>
-            <Button variant={'outlined'} color={props.filter === 'active' ? 'error' : 'primary'}
+            <Button variant={props.filter === 'active' ? 'outlined' : 'text'}
                     onClick={onActiveClickHandler}
-            >
-                Active
+                    color={'primary'}>Active
             </Button>
-            <Button variant={'outlined'} color={props.filter === 'completed' ? 'error' : 'primary'}
+            <Button variant={props.filter === 'completed' ? 'outlined' : 'text'}
                     onClick={onCompletedClickHandler}
-            >
-                Completed
+                    color={'secondary'}>Completed
             </Button>
         </div>
     </div>
 }
-
-
