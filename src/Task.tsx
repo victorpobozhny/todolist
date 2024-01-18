@@ -7,22 +7,23 @@ import {TaskType} from "./Todolist";
 
 type TaskPropsType = {
     task: TaskType
-    onChangeHandler: (taskId: string, newIsDoneValue: boolean) => void
-    onTitleChangeHandler: (taskId: string, newValue: string) => void
-    onClickHandler: (taskId: string) => void
+    todolistId: string
+    removeTask: (taskId: string, todolistId: string) => void
+    changeTaskStatus: (id: string, isDone: boolean, todolistId: string) => void
+    changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
 }
 
 export const Task = memo((props: TaskPropsType) => {
-    console.log('Task')
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log('task')
+    const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
-        props.onChangeHandler(props.task.id, newIsDoneValue);
+        props.changeTaskStatus(props.task.id,  newIsDoneValue, props.todolistId);
     }
-    const onTitleChangeHandler = (newValue: string) => {
-        props.onTitleChangeHandler(props.task.id, newValue)
+    const changeTaskTitle = (newValue: string) => {
+        props.changeTaskTitle(props.todolistId, props.task.id, newValue)
     }
-    const onClickHandler = () => {
-        props.onClickHandler(props.task.id)
+    const removeTask = () => {
+    props.removeTask(props.task.id, props.todolistId )
     }
     return (
         <div className={props.task.isDone ? "is-done" : ""}>
@@ -30,10 +31,10 @@ export const Task = memo((props: TaskPropsType) => {
             <Checkbox
                 color={"primary"}
                 checked={props.task.isDone}
-                onChange={onChangeHandler}
+                onChange={changeTaskStatus}
             />
-            <EditableSpan value={props.task.title} onChange={onTitleChangeHandler}/>
-            <IconButton onClick={onClickHandler}>
+            <EditableSpan value={props.task.title} onChange={changeTaskTitle}/>
+            <IconButton onClick={removeTask}>
                 <Delete/>
             </IconButton>
         </div>
