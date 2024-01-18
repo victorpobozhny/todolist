@@ -86,15 +86,16 @@ export const Todolist = memo((props: PropsType) => {
             }
         </div>
         <div>
-            <MyButton filter={props.filter} onClick={onAllClickHandler} color={'inherit'} name={'All'}/>
-            <MyButton filter={props.filter} onClick={onActiveClickHandler} color={'primary'} name={'Active'}/>
-            <MyButton filter={props.filter} onClick={onCompletedClickHandler} color={'secondary'} name={'Completed'}/>
+            <MyButton variant={props.filter === 'all' ? 'outlined' : 'text'} onClick={onAllClickHandler} color={'inherit'} name={'All'}/>
+            <MyButton variant={props.filter === 'active' ? 'outlined' : 'text'} onClick={onActiveClickHandler} color={'primary'} name={'Active'}/>
+            <MyButton variant={props.filter === 'completed' ? 'outlined' : 'text'} onClick={onCompletedClickHandler} color={'secondary'} name={'Completed'}/>
         </div>
     </div>
 })
 type ButtonColorType = "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning" | undefined
+type ButtonVariantType = "text" | "outlined" | "contained" | undefined
 type ButtonPropsType = {
-    filter: FilterValuesType
+    variant: ButtonVariantType
     onClick: () => void
     color: ButtonColorType
     name: string
@@ -102,7 +103,7 @@ type ButtonPropsType = {
 
 const MyButton = memo((props: ButtonPropsType) => {
     return (
-        <Button variant={props.filter === 'active' ? 'outlined' : 'text'}
+        <Button variant={props.variant}
                 onClick={props.onClick}
                 color={props.color}>
             {props.name}
