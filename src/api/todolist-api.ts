@@ -7,19 +7,18 @@ export const todolistAPI = {
         return instance.get<TodolistType[]>('todo-lists')
     },
     createTodos(payload: { title: string }) {
-        return instance.post<CreateTodolistType>('todo-lists', {title: payload.title})
+        return instance.post<ResponseType<{item: ItemType}>>('todo-lists', {title: payload.title})
     },
     deleteTodos(payload: { todolistId: string }) {
-        return instance.delete(`todo-lists/${payload.todolistId}`)
+        return instance.delete<ResponseType>(`todo-lists/${payload.todolistId}`)
     },
     updateTodolist(todolistId: string, title: string) {
-        return instance.put(
+        return instance.put<ResponseType>(
             `todo-lists/${todolistId}`,
             {title: title}
         )
     },
 }
-// протипизированы только первые 2 запроса
 
 export type TodolistType = {
     id: string
@@ -27,19 +26,17 @@ export type TodolistType = {
     addedDate: Date
     order: number
 }
-
-type CreateTodolistType = {
-    resultCode: 0
-    messages: [],
-    data: {
-        item: ItemType
-    }
-}
-
 type ItemType = {
     "id": string
     "title": string
     "addedDate": Date
     "order": number
 
+}
+
+type ResponseType<D = {}> = {
+    resultCode: number
+    messages: Array<string>
+    fieldsErrors: Array<string>
+    data: D
 }
