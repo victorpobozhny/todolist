@@ -3,7 +3,7 @@ import {todolistAPI, TodolistType} from "../api/todolist-api";
 import {buttonClasses} from "@mui/material";
 
 export default {
-    title: 'API'
+    title: 'TodolistsAPI'
 }
 
 export const GetTodolists = () => {
