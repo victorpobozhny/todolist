@@ -1,29 +1,21 @@
 import React, {memo, useCallback, useMemo} from 'react';
-import {FilterValuesType} from './App';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
 import IconButton from '@mui/material/IconButton/IconButton';
 import {Delete} from "@mui/icons-material";
 import {Button} from "@mui/material";
-import {TaskWithRedux} from "./TaskWithRedux";
-
-
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
+import {TaskStatuses, TaskType} from "./api/tasks-api";
+import {FilterValuesType} from "./state/todolists-reducer";
+import {Task} from "./Task";
 
 type PropsType = {
     id: string
     title: string
     tasks: Array<TaskType>
-
     //task
     removeTask: (taskId: string, todolistId: string) => void
-    changeTaskStatus: (id: string, isDone: boolean, todolistId: string) => void
-    changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
-
+    changeTaskStatus: (id: string, newStatus: TaskStatuses, todolistId: string) => void
+    changeTaskTitle: (taskId: string, title: string, todolistId: string) => void
     //todolist
     changeFilter: (value: FilterValuesType, todolistId: string) => void
     addTask: (title: string, todolistId: string) => void
@@ -52,12 +44,11 @@ export const Todolist = memo((props: PropsType) => {
 
     let tasks = props.tasks;
     useMemo(() => {
-
         if (props.filter === "active") {
-            tasks = tasks.filter(t => !t.isDone);
+            tasks = tasks.filter(t => {return t.status==TaskStatuses.New});
         }
         if (props.filter === "completed") {
-            tasks = tasks.filter(t => t.isDone);
+            tasks = tasks.filter(t => {return t.status==TaskStatuses.Completed});
         }
         return tasks
     }, [props.filter, props.tasks])
@@ -73,15 +64,13 @@ export const Todolist = memo((props: PropsType) => {
         <div>
             {
                 tasks.map(t => {
-                    //tasks: Array<TaskType>
-                    return <TaskWithRedux key={t.id} todolistId={props.id} taskId={t.id}/>
-                    // return <Task key={t.id}
-                    //              task={t}
-                    //              todolistId={props.id}
-                    //              changeTaskStatus={props.changeTaskStatus}
-                    //              changeTaskTitle={props.changeTaskTitle}
-                    //              removeTask={props.removeTask}
-                    // />
+                    return <Task key={t.id}
+                                 task={t}
+                                 todolistId={props.id}
+                                 changeTaskStatus={props.changeTaskStatus}
+                                 changeTaskTitle={props.changeTaskTitle}
+                                 removeTask={props.removeTask}
+                    />
                 })
             }
         </div>
