@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {tasksAPI, TaskType} from "../api/tasks-api";
+import {tasksAPI, TaskType, UpdateTaskModelType} from "../api/tasks-api";
 
 export default {
     title: 'TasksAPI'
@@ -35,16 +35,14 @@ export const CreateTask = () => {
     const [todolistId, setTodolistId] = useState<string>('')
     const [taskTitle, setTaskTitle] = useState<string>('')
     const [state, setState] = useState<any>(null)
-    const payload = {
-        title: taskTitle
-    }
+
     const onClickHandler = () => {
-        tasksAPI.createTask(todolistId, payload)
+        tasksAPI.createTask(todolistId, taskTitle)
             .then(resolve => {
                 setState(resolve.data.messages)
                 console.log(resolve)
             })
-            .catch(err=>console.log(err))
+            .catch(err => console.log(err))
         setTaskTitle('')
     }
     return (
@@ -108,13 +106,18 @@ export const UpdateTask = () => {
     const [taskId, setTaskId] = useState<string>('')
     const [state, setState] = useState<any>(null)
     const [title, setTitle] = useState<string>('')
+    const [description, setDescription] = useState<string>('')
+    const [status, setStatus] = useState<number>(0)
+    const [priority, setPriority] = useState<number>(0)
+    const [startDate, setStartDate] = useState<Date>(new Date)
+    const [deadline, setDeadline] = useState<Date>(new Date)
+
     const onClickHandler = () => {
-        const payload = {
-            title: title
+        const model: UpdateTaskModelType = {
+            description, title, status, deadline, priority, startDate
         }
-        tasksAPI.updateTask(todolistId, taskId, payload)
+        tasksAPI.updateTask(todolistId, taskId,model)
             .then(resolve => {
-                console.log(resolve)
                 setState(resolve.data.messages)
             })
             .catch(err => {
@@ -136,6 +139,18 @@ export const UpdateTask = () => {
             <div>
                 <span>Task Title: </span>
                 <input type={'text'} value={title} onChange={(e) => setTitle(e.currentTarget.value)}/>
+            </div>
+            <div>
+                <span>Task Description: </span>
+                <input type={'text'} value={description} onChange={(e) => setDescription(e.currentTarget.value)}/>
+            </div>
+            <div>
+                <span>Task Status: </span>
+                <input type={'number'} value={status} onChange={(e) => setStatus(+e.currentTarget.value)}/>
+            </div>
+            <div>
+                <span>Task Priority: </span>
+                <input type={'number'} value={priority} onChange={(e) => setPriority(+e.currentTarget.value)}/>
             </div>
             <button onClick={onClickHandler}>Update Task title</button>
             <div>{state}</div>
