@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import {action} from '@storybook/addon-actions';
-import { Button } from './stories/Button';
+import { Button } from '../../stories/Button';
 import {AddItemForm, AddItemFormPropsType} from "./AddItemForm";
 import {string} from "prop-types";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";

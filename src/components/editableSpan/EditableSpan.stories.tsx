@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import React, {useState} from "react";
-import {Task} from "./Task";
+import {Task} from "../../features/todolistsList/todolist/task/Task";
 import {action} from "@storybook/addon-actions";
 import {EditableSpan} from "./EditableSpan";
 

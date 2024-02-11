@@ -17,6 +17,8 @@ export const todolistAPI = {
     },
 }
 
+//-----------TYPES------------
+
 export type TodolistType = {
     id: string
     title: string

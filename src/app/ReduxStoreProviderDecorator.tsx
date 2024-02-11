@@ -2,8 +2,8 @@ import React from "react";
 import {AppRootStateType} from "./store";
 import {Provider} from "react-redux";
 import {combineReducers, legacy_createStore} from "redux";
-import {tasksReducer} from "./tasks-reducer";
-import {todolistsReducer} from "./todolists-reducer";
+import {tasksReducer} from "../features/todolistsList/tasks-reducer";
+import {todolistsReducer} from "../features/todolistsList/todolists-reducer";
 import {v1} from "uuid";
 import {TaskPriorities, TaskStatuses} from "../api/tasks-api";
 
