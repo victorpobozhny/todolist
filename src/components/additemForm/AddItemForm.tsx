@@ -4,6 +4,7 @@ import {AddBox} from "@mui/icons-material";
 
 export type AddItemFormPropsType = {
     addItem: (title: string) => void
+    disabled?: boolean
 }
 //HOC - функция которая приняла компонент и выдала нам новый, который следит за входящими пропсами
 // 2 параметра 1 обязательный, второй не обязательный
@@ -43,8 +44,9 @@ export const AddItemForm = memo((props: AddItemFormPropsType) => {
                    onKeyPress={onKeyPressHandler}
                    label="Title"
                    helperText={error}
+                   disabled={props.disabled}
         />
-        <IconButton color="primary" onClick={addItem}>
+        <IconButton color="primary" onClick={addItem} disabled={props.disabled}>
             <AddBox />
         </IconButton>
     </div>

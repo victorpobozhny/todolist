@@ -9,11 +9,13 @@ import {FilterValuesType} from "../todolists-reducer";
 import {Task} from "./task/Task";
 import {useAppDispatch} from "../../../app/store";
 import {getTasksTC} from "../tasks-reducer";
+import {RequestStatus} from "../../../app/app-reducer";
 
 type PropsType = {
     id: string
     title: string
     tasks: Array<TaskType>
+    entityStatus: RequestStatus
     //task
     removeTask: (taskId: string, todolistId: string) => void
     updateTask: (taskId: string, todolistId: string, status: TaskStatuses, title: string)=>void
@@ -62,11 +64,11 @@ const dispatch = useAppDispatch()
 
     return <div>
         <h3><EditableSpan value={props.title} onChange={changeTodolistTitle}/>
-            <IconButton onClick={removeTodolist}>
+            <IconButton onClick={removeTodolist} disabled={props.entityStatus==='loading'}>
                 <Delete/>
             </IconButton>
         </h3>
-        <AddItemForm addItem={addTask}/>
+        <AddItemForm addItem={addTask} disabled={props.entityStatus=='loading'}/>
         <div>
             {
                 tasks.map(t => {

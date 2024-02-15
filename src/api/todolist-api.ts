@@ -25,9 +25,14 @@ export type TodolistType = {
     addedDate: Date
     order: number
 }
-type ResponseType<D = {}> = {
+export type ResponseType<D = {}> = {
     resultCode: number
     messages: Array<string>
     fieldsErrors: Array<string>
     data: D
+}
+export enum RESULT_CODE {
+    SUCCEEDED=0,
+    ERROR=1,
+    CAPTCHA=10
 }
