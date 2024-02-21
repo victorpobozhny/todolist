@@ -21,7 +21,6 @@ export const appReducer = (state: InitialState = initialState, action: Actions):
     }
 }
 
-
 export const setRequestStatus = (status: RequestStatus) => {
     return {
         type: 'APP/SET-STATUS',
@@ -30,6 +29,7 @@ export const setRequestStatus = (status: RequestStatus) => {
         }
     } as const
 }
+
 export const setError = (error: null | string) => {
     return {
         type: 'APP/SET-ERROR',

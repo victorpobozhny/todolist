@@ -8,13 +8,13 @@ import {TaskStatuses, TaskType} from "../../../api/tasks-api";
 import {FilterValuesType} from "../todolists-reducer";
 import {Task} from "./task/Task";
 import {useAppDispatch} from "../../../app/store";
-import {getTasksTC} from "../tasks-reducer";
+import {getTasksTC, TaskDomainType} from "../tasks-reducer";
 import {RequestStatus} from "../../../app/app-reducer";
 
 type PropsType = {
     id: string
     title: string
-    tasks: Array<TaskType>
+    tasks: Array<TaskDomainType>
     entityStatus: RequestStatus
     //task
     removeTask: (taskId: string, todolistId: string) => void

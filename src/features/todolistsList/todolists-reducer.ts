@@ -22,7 +22,7 @@ export const todolistsReducer = (state: TodolistDomainType[] = initialState, act
         case "CHANGE-TODOLIST-FILTER":
             return state.map(el => el.id == action.payload.id ? {...el, filter: action.payload.filter} : el)
         case "CHANGE-ENTITY-STATUS":
-            return state.map(el=>el.id==action.payload.id? {...el, entityStatus: action.payload.entityStatus} :el)
+            return state.map(el => el.id == action.payload.id ? {...el, entityStatus: action.payload.entityStatus} : el)
         default:
             return state
     }
@@ -83,54 +83,52 @@ export const changeEntityStatusAC = (id: string, entityStatus: RequestStatus) =>
 
 // --------------THUNK CREATORS --------------
 
-export const getTodolistsTC = (): AppThunk => async dispatch => {
+export const getTodolistsTC = (): AppThunk => dispatch => {
     dispatch(setRequestStatus('loading'))
-    try {
-        const res = await todolistAPI.getTodolists()
-        dispatch(setTodolistsAC(res.data))
-        dispatch(setRequestStatus('succeeded'))
-    } catch (e) {
-        console.log(e)
-    }
+    todolistAPI.getTodolists()
+        .then(res => {
+            dispatch(setTodolistsAC(res.data))
+            dispatch(setRequestStatus('succeeded'))
+        })
+        .catch(err => console.log(err))
 }
 
-export const addTodolistTC = (title: string): AppThunk => async dispatch => {
+export const addTodolistTC = (title: string): AppThunk => dispatch => {
     dispatch(setRequestStatus('loading'))
-    try {
-        const res = await todolistAPI.createTodolist(title)
-        dispatch(addTodolistAC(res.data.data.item))
-        dispatch(setRequestStatus('succeeded'))
-    } catch (e) {
-        console.log(e)
-    }
+    todolistAPI.createTodolist(title)
+        .then(res => {
+            dispatch(addTodolistAC(res.data.data.item))
+            dispatch(setRequestStatus('succeeded'))
+        })
+        .catch(err => console.log(err))
 }
 
-export const removeTodolistTC = (todolistId: string): AppThunk => async dispatch => {
+export const removeTodolistTC = (todolistId: string): AppThunk => dispatch => {
     dispatch(setRequestStatus('loading'))
     dispatch(changeEntityStatusAC(todolistId, 'loading'))
-    try {
-        const res = await todolistAPI.deleteTodolist(todolistId)
-        dispatch(removeTodolistAC(todolistId))
-        dispatch(setRequestStatus('succeeded'))
-        dispatch(changeEntityStatusAC(todolistId, 'idle'))
-    } catch (e: any) {
-        dispatch(setRequestStatus('idle'))
-        dispatch(changeEntityStatusAC(todolistId, 'idle'))
-        dispatch(setError(e.message))
-    }
+    todolistAPI.deleteTodolist(todolistId)
+        .then(res => {
+            dispatch(removeTodolistAC(todolistId))
+            dispatch(setRequestStatus('succeeded'))
+            dispatch(changeEntityStatusAC(todolistId, 'idle'))
+        })
+        .catch(e => {
+            dispatch(setRequestStatus('idle'))
+            dispatch(changeEntityStatusAC(todolistId, 'idle'))
+            dispatch(setError(e.message))
+        })
 }
 
-export const updateTodolistTC = (todolistId: string, title: string): AppThunk => async dispatch => {
+export const updateTodolistTC = (todolistId: string, title: string): AppThunk => dispatch => {
     dispatch(setRequestStatus('loading'))
     dispatch(changeEntityStatusAC(todolistId, 'loading'))
-    try {
-        const res = await todolistAPI.updateTodolist(todolistId, title)
-        dispatch(changeTodolistTitleAC(title, todolistId))
-        dispatch(setRequestStatus('succeeded'))
-        dispatch(changeEntityStatusAC(todolistId, 'idle'))
-    } catch (e) {
-        console.log(e)
-    }
+    todolistAPI.updateTodolist(todolistId, title)
+        .then(res => {
+            dispatch(changeTodolistTitleAC(title, todolistId))
+            dispatch(setRequestStatus('succeeded'))
+            dispatch(changeEntityStatusAC(todolistId, 'idle'))
+        })
+        .catch(err => console.log(err))
 }
 
 
