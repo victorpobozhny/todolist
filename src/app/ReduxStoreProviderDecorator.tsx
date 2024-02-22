@@ -14,8 +14,8 @@ const rootReducer = combineReducers({
 
 const initialGlobalState: AppRootStateType = {
     todolists: [
-        {id: 'todolistId1', title: "What to learn", filter: "all", order: 0, addedDate: new Date()},
-        {id: 'todolistId2', title: "What to buy", filter: "all", order: 1, addedDate: new Date()}
+        {id: 'todolistId1', title: "What to learn", filter: "all", order: 0, addedDate: new Date(), entityStatus: 'idle'},
+        {id: 'todolistId2', title: "What to buy", filter: "all", order: 1, addedDate: new Date(), entityStatus: 'idle'}
     ],
     tasks: {
         ['todolistId1']: [
@@ -30,7 +30,8 @@ const initialGlobalState: AppRootStateType = {
                 id: v1(),
                 todoListId: 'todolistId1',
                 order: 0,
-                addedDate: new Date()
+                addedDate: new Date(),
+                entityStatus: "idle"
             },
             {
                 description: 'string1',
@@ -43,7 +44,8 @@ const initialGlobalState: AppRootStateType = {
                 id: v1(),
                 todoListId: 'todolistId1',
                 order: 1,
-                addedDate: new Date()
+                addedDate: new Date(),
+                entityStatus: "idle"
             }
         ],
         ['todolistId2']: [
@@ -58,7 +60,8 @@ const initialGlobalState: AppRootStateType = {
                 id: v1(),
                 todoListId: 'todolistId2',
                 order: 1,
-                addedDate: new Date()
+                addedDate: new Date(),
+                entityStatus: "idle"
             },
             {
                 description: 'string3',
@@ -71,7 +74,8 @@ const initialGlobalState: AppRootStateType = {
                 id: v1(),
                 todoListId: 'todolistId2',
                 order: 2,
-                addedDate: new Date()
+                addedDate: new Date(),
+                entityStatus: "idle"
             }
         ]
     },

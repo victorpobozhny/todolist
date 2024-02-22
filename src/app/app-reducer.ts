@@ -4,7 +4,7 @@ export type SetError = ReturnType<typeof setError>
 export type Actions = SetRequestStatus | SetError
 
 const initialState = {
-    status: 'loading' as RequestStatus,
+    status: 'idle' as RequestStatus,
     error: null as null | string,
 }
 

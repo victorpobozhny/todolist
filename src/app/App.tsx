@@ -11,6 +11,8 @@ import {Menu} from "@mui/icons-material";
 import {TodolistsList} from "../features/todolistsList/TodolistsList";
 import {useAppSelector} from "./store";
 import {CustomizedSnackbars} from "../components/errorSnackBar/CustomizedSnackbars";
+import {Login} from "../features/login/Login";
+import {Routes, Route, Navigate} from 'react-router-dom';
 
 
 function App() {
@@ -34,7 +36,12 @@ function App() {
             }
             <CustomizedSnackbars/>
             <Container fixed>
-                <TodolistsList/>
+                <Routes>
+                    <Route path="/" element={<TodolistsList/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/404" element={<h3>PAGE NOT FOUND</h3>}/>
+                    <Route path="/*" element={<Navigate to={'/404'}/>}/>
+                </Routes>
             </Container>
         </div>
     );

@@ -63,7 +63,7 @@ const dispatch = useAppDispatch()
 
 
     return <div>
-        <h3><EditableSpan value={props.title} onChange={changeTodolistTitle}/>
+        <h3><EditableSpan value={props.title} onChange={changeTodolistTitle} disabled={false}/>
             <IconButton onClick={removeTodolist} disabled={props.entityStatus==='loading'}>
                 <Delete/>
             </IconButton>

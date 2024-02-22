@@ -21,7 +21,8 @@ beforeEach(() => {
                 id: '1',
                 todoListId: 'todolistId1',
                 order: 0,
-                addedDate: date
+                addedDate: date,
+                entityStatus: 'idle'
             },
             {
                 description: 'string1',
@@ -34,7 +35,8 @@ beforeEach(() => {
                 id: '2',
                 todoListId: 'todolistId1',
                 order: 1,
-                addedDate: date
+                addedDate: date,
+                entityStatus: 'idle'
             }
         ],
         "todolistId2": [
@@ -49,7 +51,8 @@ beforeEach(() => {
                 id: '1',
                 todoListId: 'todolistId2',
                 order: 1,
-                addedDate: date
+                addedDate: date,
+                entityStatus: 'idle'
             },
             {
                 description: 'string3',
@@ -62,7 +65,8 @@ beforeEach(() => {
                 id: '2',
                 todoListId: 'todolistId2',
                 order: 2,
-                addedDate: date
+                addedDate: date,
+                entityStatus: 'idle'
             }
         ]
     };

@@ -4,6 +4,7 @@ import {Task} from "./Task";
 import {action} from "@storybook/addon-actions";
 import {TaskPriorities, TaskStatuses} from "../../../../api/tasks-api";
 import {v1} from "uuid";
+import {RequestStatus} from "../../../../app/app-reducer";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta: Meta<typeof Task> = {
@@ -50,7 +51,9 @@ export const Task_Example_1: Story = {
             id: v1(),
             todoListId: 'todolistId1',
             order: 0,
-            addedDate: new Date()}
+            addedDate: new Date(),
+            entityStatus: "idle"
+        }
     }
 };
 export const Task_Example_2: Story = {
@@ -66,7 +69,8 @@ export const Task_Example_2: Story = {
             id: v1(),
             todoListId: 'todolistId1',
             order: 1,
-            addedDate: new Date()
+            addedDate: new Date(),
+            entityStatus: "idle"
         }
     }
 };
@@ -83,7 +87,8 @@ const TaskToggle = () => {
         id: v1(),
         todoListId: 'todolistId1',
         order: 1,
-        addedDate: new Date()
+        addedDate: new Date(),
+        entityStatus: "idle" as RequestStatus
     })
 
     const updateTask = (taskId: string, todolistId: string, status: TaskStatuses, newTitle: string) => {
