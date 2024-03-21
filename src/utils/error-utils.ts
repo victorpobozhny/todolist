@@ -5,6 +5,7 @@ import {ResponseType} from '../api/tasks-api'
 type ErrorType = {
     message: string
 }
+
 export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: Dispatch<ErrorUtilsDispatchType>)=> {
     if (data.messages.length) {
         dispatch(setError(data.messages[0]))
@@ -15,7 +16,7 @@ export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: Dispatc
     dispatch(setRequestStatus('failed'))
 }
 
-export const handleServerNetworkError = (error: { message: string }, dispatch: Dispatch<ErrorUtilsDispatchType>) => {
+export const handleServerNetworkError = (error: ErrorType, dispatch: Dispatch<ErrorUtilsDispatchType>) => {
     dispatch(setRequestStatus('failed'))
     dispatch(setError(error.message))
 }

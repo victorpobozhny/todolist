@@ -31,11 +31,12 @@ export const loginTC = (data: LoginType) => (dispatch: Dispatch<ActionsType>) =>
                     dispatch(setIsLoggedInAC(true))
                     dispatch(setRequestStatus('succeeded'))
                 } else {
-                    //handleServerAppError(res.data, dispatch)
+
+                    //handleServerAppError<ResponseType<{ userId: number }>>(res.data.data, dispatch)
                 }
             }
         )
-        .catch((e) => handleServerNetworkError(e, dispatch))
+        .catch((e) => handleServerNetworkError({message: e.message}, dispatch))
 }
 
 // types
