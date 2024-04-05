@@ -1,25 +1,28 @@
-import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField } from "@mui/material"
-import { authSelectors, loginTC } from "features/Login/authSlice"
-import { useFormik } from "formik"
-import React from "react"
-import { useSelector } from "react-redux"
-import { Navigate } from "react-router-dom"
-import { useAppDispatch } from "../../hooks/useAppDispatch"
+import React from "react";
+import { useFormik } from "formik";
+import { useSelector } from "react-redux";
+import { loginTC } from "features/auth/auth.reducer";
+import { Navigate } from "react-router-dom";
+import { useAppDispatch } from "hooks/useAppDispatch";
+import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField } from "@mui/material";
+import { selectIsLoggedIn } from "features/auth/auth.selectors";
 
 export const Login = () => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
-  const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn)
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   const formik = useFormik({
     validate: (values) => {
       if (!values.email) {
         return {
           email: "Email is required",
-        }
+        };
       }
       if (!values.password) {
-        return { password: "Password is required" }
+        return {
+          password: "Password is required",
+        };
       }
     },
     initialValues: {
@@ -28,12 +31,12 @@ export const Login = () => {
       rememberMe: false,
     },
     onSubmit: (values) => {
-      dispatch(loginTC(values))
+      dispatch(loginTC(values));
     },
-  })
+  });
 
   if (isLoggedIn) {
-    return <Navigate to={"/"} />
+    return <Navigate to={"/"} />;
   }
 
   return (
@@ -69,5 +72,5 @@ export const Login = () => {
         </form>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
