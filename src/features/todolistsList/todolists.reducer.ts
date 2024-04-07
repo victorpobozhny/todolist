@@ -2,10 +2,11 @@ import { todolistsAPI, TodolistType } from "api/todolists-api";
 import { appActions, RequestStatusType } from "app/app.reducer";
 import { handleServerNetworkError } from "utils/error-utils";
 import { AppThunk } from "app/store";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { clearTasksAndTodolists } from "common/actions/common.actions";
 
 const initialState: TodolistDomainType[] = [];
+
 
 const slice = createSlice({
   name: "todo",
@@ -54,6 +55,7 @@ export const todolistsReducer = slice.reducer;
 export const todolistsActions = slice.actions;
 
 // thunks
+
 export const fetchTodolistsTC = (): AppThunk => {
   return (dispatch) => {
     dispatch(appActions.setAppStatus({ status: "loading" }));
