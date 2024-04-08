@@ -1,6 +1,7 @@
-import { tasksActions, tasksReducer, TasksStateType, tasksThunks } from "features/TodolistsList/tasks.reducer";
-import { TaskPriorities, TaskStatuses, TaskType } from "api/todolists-api";
-import { todolistsActions } from "features/TodolistsList/todolists.reducer";
+import { tasksReducer, TasksStateType, tasksThunks } from "features/TodolistsList/tasks.reducer";
+import { todolistsActions, todolistsThunks } from "features/TodolistsList/todolists.reducer";
+import { TaskPriorities, TaskStatuses } from "common/enums";
+import { ActionTypeForTest } from "common/types/types";
 
 let startState: TasksStateType = {};
 beforeEach(() => {
@@ -85,7 +86,11 @@ beforeEach(() => {
 });
 
 test("correct task should be deleted from correct array", () => {
-  const action = tasksActions.removeTask({ taskId: "2", todolistId: "todolistId2" });
+  const action: ActionTypeForTest<typeof tasksThunks.removeTask.fulfilled> = ({
+    type: tasksThunks.removeTask.fulfilled.type, payload: {
+      taskId: "2", todolistId: "todolistId2"
+    }
+  });
 
   const endState = tasksReducer(startState, action);
 
@@ -122,12 +127,11 @@ test("correct task should be added to correct array", () => {
 });
 
 test("status of specified task should be changed", () => {
-  const action = tasksActions.updateTask({
-    taskId: "2",
-    model: { status: TaskStatuses.New },
-    todolistId: "todolistId2"
+  const action: ActionTypeForTest<typeof tasksThunks.updateTask.fulfilled> = ({
+    type: tasksThunks.updateTask.fulfilled.type, payload: {
+      taskId: "2", domainModel: { status: TaskStatuses.New }, todolistId: "todolistId2"
+    }
   });
-
   const endState = tasksReducer(startState, action);
 
   expect(endState["todolistId1"][1].status).toBe(TaskStatuses.Completed);
@@ -135,7 +139,11 @@ test("status of specified task should be changed", () => {
 });
 
 test("title of specified task should be changed", () => {
-  const action = tasksActions.updateTask({ taskId: "2", model: { title: "yogurt" }, todolistId: "todolistId2" });
+  const action: ActionTypeForTest<typeof tasksThunks.updateTask.fulfilled> = ({
+    type: tasksThunks.updateTask.fulfilled.type, payload: {
+      taskId: "2", domainModel: { title: "yogurt" }, todolistId: "todolistId2"
+    }
+  });
 
   const endState = tasksReducer(startState, action);
 
@@ -167,7 +175,10 @@ test("new array should be added when new todolist is added", () => {
 });
 
 test("propertry with todolistId should be deleted", () => {
-  const action = todolistsActions.removeTodolist({ id: "todolistId2" });
+  const action: ActionTypeForTest<typeof todolistsThunks.removeTodolist.fulfilled> = ({
+    type: todolistsThunks.removeTodolist.fulfilled.type,
+    payload: "todolistId2"
+  });
 
   const endState = tasksReducer(startState, action);
 
@@ -178,11 +189,13 @@ test("propertry with todolistId should be deleted", () => {
 });
 
 test("empty arrays should be added when we set todolists", () => {
-  const action = todolistsActions.setTodolists({
-    todolists: [
-      { id: "1", title: "title 1", order: 0, addedDate: "" },
-      { id: "2", title: "title 2", order: 0, addedDate: "" }
-    ]
+  const action: ActionTypeForTest<typeof todolistsThunks.fetchTodolists.fulfilled> = ({
+    type: todolistsThunks.fetchTodolists.fulfilled.type, payload: {
+      todolists: [
+        { id: "1", title: "title 1", order: 0, addedDate: "" },
+        { id: "2", title: "title 2", order: 0, addedDate: "" }
+      ]
+    }
   });
 
   const endState = tasksReducer({}, action);
@@ -193,8 +206,6 @@ test("empty arrays should be added when we set todolists", () => {
   expect(endState["1"]).toBeDefined();
   expect(endState["2"]).toBeDefined();
 });
-
-type ActionTypeForTest<T extends (...args: any) => any> = Omit<ReturnType<T>, "meta">
 
 test("tasks should be added for todolist", () => {
   const action: ActionTypeForTest<typeof tasksThunks.fetchTasks.fulfilled> = {
