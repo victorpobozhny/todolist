@@ -10,12 +10,14 @@ export type TodolistType = {
   addedDate: string;
   order: number;
 };
+
+export type UpdateTodolistPayloadType = Omit<TodolistType, "addedDate" | "order">;
+
 export type ResponseType<D = {}> = {
   resultCode: number;
   messages: Array<string>;
   data: D;
 };
-
 
 
 export type TaskType = {

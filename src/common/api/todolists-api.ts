@@ -1,6 +1,12 @@
 import axios from "axios";
 import { GetTasksResponse, ResponseType, TaskType, TodolistType } from "common/types";
-import { CreateTaskPayload, LoginParamsType, RemoveTaskPayloadType, UpdateTaskArgType } from "common/types/types";
+import {
+  CreateTaskPayload,
+  LoginParamsType,
+  RemoveTaskPayloadType,
+  UpdateTaskArgType,
+  UpdateTodolistPayloadType
+} from "common/types/types";
 
 const settings = {
   withCredentials: true,
@@ -24,8 +30,8 @@ export const todolistsAPI = {
   deleteTodolist(id: string) {
     return instance.delete<ResponseType>(`todo-lists/${id}`);
   },
-  updateTodolist(id: string, title: string) {
-    return instance.put<ResponseType>(`todo-lists/${id}`, { title: title });
+  updateTodolist(payload: UpdateTodolistPayloadType) {
+    return instance.put<ResponseType>(`todo-lists/${payload.id}`, { title: payload.title });
   },
   getTasks(todolistId: string) {
     return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`);
@@ -42,7 +48,6 @@ export const todolistsAPI = {
     return instance.put<ResponseType<TaskType>>(`todo-lists/${payload.todolistId}/tasks/${payload.taskId}`, payload.domainModel);
   }
 };
-
 
 
 export const authAPI = {
