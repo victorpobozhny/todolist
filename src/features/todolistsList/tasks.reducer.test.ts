@@ -1,5 +1,5 @@
 import { tasksReducer, TasksStateType, tasksThunks } from "features/TodolistsList/tasks.reducer";
-import { todolistsActions, todolistsThunks } from "features/TodolistsList/todolists.reducer";
+import { todolistsThunks } from "features/TodolistsList/todolists.reducer";
 import { TaskPriorities, TaskStatuses } from "common/enums";
 import { ActionTypeForTest } from "common/types/types";
 
@@ -153,12 +153,14 @@ test("title of specified task should be changed", () => {
 });
 
 test("new array should be added when new todolist is added", () => {
-  const action = todolistsActions.addTodolist({
-    todolist: {
-      id: "blabla",
-      title: "new todolist",
-      order: 0,
-      addedDate: ""
+  const action: ActionTypeForTest<typeof todolistsThunks.addTodolist.fulfilled> = ({
+    type: todolistsThunks.addTodolist.fulfilled.type, payload: {
+      todolist: {
+        id: "blabla",
+        title: "new todolist",
+        order: 0,
+        addedDate: ""
+      }
     }
   });
 

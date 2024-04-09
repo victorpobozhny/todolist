@@ -44,7 +44,12 @@ test("correct todolist should be added", () => {
     order: 0
   };
 
-  const endState = todolistsReducer(startState, todolistsActions.addTodolist({ todolist }));
+  const action: ActionTypeForTest<typeof todolistsThunks.addTodolist.fulfilled> = ({
+    type: todolistsThunks.addTodolist.fulfilled.type,
+    payload: { todolist: todolist }
+  });
+
+  const endState = todolistsReducer(startState, action);
 
   expect(endState.length).toBe(3);
   expect(endState[0].title).toBe(todolist.title);
@@ -54,7 +59,11 @@ test("correct todolist should be added", () => {
 test("correct todolist should change its name", () => {
   let newTodolistTitle = "New Todolist";
 
-  const action = todolistsActions.changeTodolistTitle({ id: todolistId2, title: newTodolistTitle });
+  const action: ActionTypeForTest<typeof todolistsThunks.changeTodolistTitle.fulfilled> = ({
+    type: todolistsThunks.changeTodolistTitle.fulfilled.type, payload: {
+      id: todolistId2, title: newTodolistTitle
+    }
+  });
 
   const endState = todolistsReducer(startState, action);
 
