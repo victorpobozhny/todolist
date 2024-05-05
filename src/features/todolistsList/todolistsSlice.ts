@@ -4,8 +4,6 @@ import { AppThunk } from "app/store";
 import { appActions, RequestStatusType } from "app/appSlice";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState: Array<TodolistDomainType> = [];
-
 const slice = createSlice({
   name: "todolists",
   initialState: [] as TodolistDomainType[],
@@ -44,6 +42,9 @@ const slice = createSlice({
         filter: "all",
         entityStatus: "idle",
       }));
+    },
+    clearData: (state, action) => {
+      return [];
     },
   },
 });
