@@ -23,14 +23,14 @@ export const todolistsAPI = {
   deleteTodolist(id: string) {
     return instance.delete<ResponseType>(`todo-lists/${id}`);
   },
-  updateTodolist(id: string, title: string) {
-    return instance.put<ResponseType>(`todo-lists/${id}`, { title: title });
+  updateTodolist(arg: UpdateTodolistType) {
+    return instance.put<ResponseType>(`todo-lists/${arg.id}`, { title: arg.title });
   },
   getTasks(todolistId: string) {
     return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`);
   },
-  deleteTask(todolistId: string, taskId: string) {
-    return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`);
+  deleteTask(arg: RemoveTaskType) {
+    return instance.delete<ResponseType>(`todo-lists/${arg.todolistId}/tasks/${arg.taskId}`);
   },
   createTask(arg: CreateTaskArgs) {
     return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${arg.todolistId}/tasks`, {
@@ -41,6 +41,16 @@ export const todolistsAPI = {
     const { todolistId, taskId, domainModel } = arg;
     return instance.put<ResponseType<TaskType>>(`todo-lists/${todolistId}/tasks/${taskId}`, domainModel);
   },
+};
+
+export type UpdateTodolistType = {
+  id: string;
+  title: string;
+};
+
+export type RemoveTaskType = {
+  taskId: string;
+  todolistId: string;
 };
 
 export type UpdateTaskArgType = {
@@ -84,6 +94,12 @@ export type ResponseType<D = {}> = {
   messages: Array<string>;
   data: D;
 };
+
+export enum ResultCode {
+  success = 0,
+  error = 1,
+  captcha = 10,
+}
 
 export enum TaskStatuses {
   New = 0,
