@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { FilterValuesType, todolistsActions, todolistsThunks } from "features/TodolistsList/todolists.reducer";
-import { tasksThunks } from "features/TodolistsList/tasks.reducer";
-import { TaskStatuses } from "api/todolists-api";
+import { FilterValuesType, todolistsActions, todolistsThunks } from "features/TodolistsList/model/todolists.reducer";
+import { tasksThunks } from "features/TodolistsList/Todolist/Task/model/tasks.reducer";
 import { Grid, Paper } from "@mui/material";
-import { AddItemForm } from "components/AddItemForm/AddItemForm";
-import { Todolist } from "./Todolist/Todolist";
+import { AddItemForm } from "common/components/AddItemForm/AddItemForm";
+import { Todolist } from "features/TodolistsList/Todolist/Todolist";
 import { Navigate } from "react-router-dom";
-import { useAppDispatch } from "hooks/useAppDispatch";
-import { selectIsLoggedIn } from "features/auth/auth.selectors";
-import { selectTasks } from "features/TodolistsList/tasks.selectors";
-import { selectTodolists } from "features/TodolistsList/todolists.selectors";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
+import { selectIsLoggedIn } from "features/auth/model/auth.selectors";
+import { selectTasks } from "features/TodolistsList/Todolist/Task/model/tasks.selectors";
+import { selectTodolists } from "features/TodolistsList/model/todolists.selectors";
+import { TaskStatuses } from "common/enums";
 
 type PropsType = {
   demo?: boolean;
