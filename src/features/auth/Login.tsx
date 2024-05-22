@@ -36,7 +36,7 @@ export const Login = () => {
         .unwrap()
         .catch((err: BaseResponseType) => {
           debugger;
-          err.fieldsErrors.forEach((el) => formikHelpers.setFieldError(el.field, el.error));
+          err.fieldsErrors && err.fieldsErrors.forEach((el) => formikHelpers.setFieldError(el.field, el.error));
         });
     },
   });
